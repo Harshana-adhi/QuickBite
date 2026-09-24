@@ -28,6 +28,7 @@ export default function CategoryFilter({ categories, selected, onSelect }) {
 const styles = StyleSheet.create({
   scroll: {
     flexGrow: 0,
+    flexShrink: 0,
   },
   container: {
     paddingHorizontal: spacing.md,

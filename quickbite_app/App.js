@@ -11,8 +11,8 @@ export default function App() {
       <UserProvider>
         <OrderProvider>
           <CartProvider>
-            <AppNavigator />
             <StatusBar style="light" />
+            <AppNavigator />
           </CartProvider>
         </OrderProvider>
       </UserProvider>
