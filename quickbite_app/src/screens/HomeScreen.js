@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import CategoryFilter from '../components/CategoryFilter';
 import MenuItemCard from '../components/MenuItemCard';
+import { useCart } from '../context/CartContext';
 import { categories, menuItems } from '../data/menu';
 import { colors, fontSizes, spacing } from '../theme/theme';
 
@@ -17,6 +18,7 @@ export default function HomeScreen({ navigation }) {
   const [search, setSearch] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
   const { width } = useWindowDimensions();
+  const { itemCount } = useCart();
 
   let numColumns = 2;
   if (width >= 900) numColumns = 4;
@@ -27,7 +29,7 @@ export default function HomeScreen({ navigation }) {
       headerRight: () => (
         <View style={styles.headerButtons}>
           <Pressable onPress={() => navigation.navigate('Cart')}>
-            <Text style={styles.headerText}>Cart</Text>
+            <Text style={styles.headerText}>Cart ({itemCount})</Text>
           </Pressable>
           <Pressable onPress={() => navigation.navigate('Profile')}>
             <Text style={styles.headerText}>Profile</Text>
@@ -35,7 +37,7 @@ export default function HomeScreen({ navigation }) {
         </View>
       ),
     });
-  }, [navigation]);
+  }, [navigation, itemCount]);
 
   const filteredItems = menuItems.filter((item) => {
     const matchesCategory = selectedCategory === 'All' || item.category === selectedCategory;
