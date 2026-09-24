@@ -3,12 +3,23 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import AppButton from '../components/AppButton';
 import CartItemRow from '../components/CartItemRow';
 import { useCart } from '../context/CartContext';
+import { useOrders } from '../context/OrderContext';
 import { colors, fontSizes, spacing } from '../theme/theme';
 import { formatPrice } from '../utils/format';
 
 export default function CartScreen({ navigation }) {
-  const { cartItems, updateQuantity, removeFromCart, itemCount, subtotal } = useCart();
+  const { cartItems, updateQuantity, removeFromCart, clearCart, itemCount, subtotal } = useCart();
+  const { placeOrder } = useOrders();
   const insets = useSafeAreaInsets();
+
+  const handleCheckout = () => {
+    const order = placeOrder(cartItems, subtotal);
+    clearCart();
+    navigation.reset({
+      index: 1,
+      routes: [{ name: 'Home' }, { name: 'Checkout', params: { orderId: order.id } }],
+    });
+  };
 
   if (cartItems.length === 0) {
     return (
@@ -44,7 +55,7 @@ export default function CartScreen({ navigation }) {
           <Text style={styles.subtotalLabel}>Subtotal</Text>
           <Text style={styles.subtotalValue}>{formatPrice(subtotal)}</Text>
         </View>
-        <AppButton title="Checkout" onPress={() => navigation.navigate('Checkout')} />
+        <AppButton title="Checkout" onPress={handleCheckout} />
       </View>
     </View>
   );
