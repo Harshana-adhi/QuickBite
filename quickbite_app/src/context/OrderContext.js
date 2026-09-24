@@ -40,8 +40,10 @@ export function OrderProvider({ children }) {
 
   const getOrderById = (orderId) => orders.find((order) => order.id === orderId);
 
+  const clearOrders = () => setOrders([]);
+
   return (
-    <OrderContext.Provider value={{ orders, placeOrder, getOrderById }}>
+    <OrderContext.Provider value={{ orders, placeOrder, getOrderById, clearOrders }}>
       {children}
     </OrderContext.Provider>
   );
